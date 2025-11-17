@@ -1,0 +1,39 @@
+                   +--------------------------------+
+                   |       DAG01 (HA Layer)        |
+                   |  MSEX2019   WIN-EX2019        |
+                   |  DB A (Active/Passive)        |
+                   |  DB B (Passive/Active)        |
+                   +--------------------------------+
+                             |           |
+                             |           |
+                             v           v
+                +----------------+   +----------------+
+                | VSS / Image    |   | VSS / Image    |
+                | Backup of      |   | Backup of      |
+                | MSEX2019       |   | WIN-EX2019     |
+                +----------------+   +----------------+
+
+                        +----------------------+
+                        | Off-host Storage /   |
+                        | Backup Repository    |
+                        +----------------------+
+
+
+Design ideas / best practice
+
+DAG ≠ Backup → it’s for availability, not long-term restore.
+
+Typical enterprise strategy:
+
+DAG with 2+ copies (you already have).
+
+Periodic VSS / application-aware backup of databases.
+
+Test single-mailbox restore and DB-level restore.
+
+👉 Lab ideas
+
+Try export mailbox to PST as a “poor man’s backup”:
+New-MailboxExportRequest -Mailbox user1 -FilePath \\SERVER\Share\user1.pst
+
+Simulate DB loss on one node and verify another copy can mount.

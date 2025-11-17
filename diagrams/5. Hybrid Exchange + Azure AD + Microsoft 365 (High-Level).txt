@@ -1,0 +1,64 @@
+                         +---------------------------------+
+                         |      Microsoft 365 Tenant       |
+                         |  Exchange Online (EXO)          |
+                         |  Azure AD (cloud identity)      |
+                         +-----------------+---------------+
+                                           ^
+                                           | 3. DirSync (Azure AD Connect)
+                                           |
++--------------------+     2. HTTPS / SMTP |       +-------------------------+
+| On-prem Exchange   |<--------------------+------>|  Azure AD Connect Host  |
+| 2019 DAG (DAG01)   |                           |  (could be WIN2019AD or  |
+| MSEX2019 / WIN-EX2019                          |  another member server)   |
++---------+----------+                           +-----------+-------------+
+          ^                                                  ^
+          | 1. On-prem identities / groups                   |
+          |                                                  |
++---------+----------+                             +---------+----------+
+|  WIN2019AD         |                             |   Public DNS /     |
+|  AD DS + DNS       |                             |   hk2uk.online     |
++--------------------+                             +--------------------+
+            ^                                                     ^
+            | 4. Clients use same namespace                       |
+            |    (mail.hk2uk.online / autodiscover.hk2uk.online)  |
+            |                                                     |
+        +---+---------------------+                               |
+        | Outlook / OWA Clients   |-------------------------------+
+        +-------------------------+
+
+
+Concept
+
+Azure AD Connect:
+
+Syncs on-prem users / groups / passwords hash to Azure AD.
+
+Hybrid Configuration Wizard (HCW):
+
+Sets up connectors between EXO and on-prem Exchange.
+
+Allows:
+
+Mailboxes moved to cloud
+
+Single global address list
+
+Free/Busy sharing
+
+Centralized mail transport (optional).
+
+👉 Lab steps you can plan (future)
+
+Get a test Microsoft 365 tenant (trial or dev when可申請到).
+
+Verify your hk2uk.online domain in M365.
+
+Install Azure AD Connect on a server (not DC in real world; in lab you can).
+
+Run Hybrid Configuration Wizard from MSEX2019.
+
+Try:
+
+Creating a mailbox on-prem → see it in M365 as DirSync user.
+
+Move mailbox to EXO, keep same email address & namespace.

@@ -1,0 +1,46 @@
+                        Client (Outlook / OWA / ActiveSync)
+                                     |
+                           HTTPS: https://mail.hk2uk.online
+                                     |
+                           DNS Round Robin (A records)
+                      mail.hk2uk.online -> 192.168.10.62 (MSEX2019)
+                                         -> 192.168.10.60 (WIN-EX2019)
+                                     |
+                     +---------------+---------------+
+                     |                               |
+              +--------------+                +--------------+
+              |  MSEX2019    |                | WIN-EX2019   |
+              | 192.168.10.62|                |192.168.10.60 |
+              | Active DB A  | <--- Replication ---> | Passive DB A |
+              | Passive DB B | <--- Replication ---> | Active DB B  |
+              +--------------+                +--------------+
+                      \                             /
+                       \                           /
+                        \      DAG01 (Cluster)    /
+                         +-----------------------+
+                         | Monitors DB health    |
+                         | Orchestrates failover |
+                         +-----------------------+
+
+
+What this shows / what you can test
+
+Normal state:
+
+Mailbox DB A mounted on MSEX2019
+
+DB B mounted on WIN-EX2019
+
+Failover test:
+
+Stop Exchange services or shut down MSEX2019
+
+Run Get-MailboxDatabaseCopyStatus * on WIN-EX2019
+
+DAG01 will mount DB A on WIN-EX2019 → clients reconnect via same URL.
+
+👉 Lab ideas
+
+Practice manual switchover: Move-ActiveMailboxDatabase -Identity "DB" -ActivateOnServer WIN-EX2019 -Confirm:$false
+
+Observe Outlook reconnection / OWA behaviour.

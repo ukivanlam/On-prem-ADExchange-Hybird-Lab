@@ -1,0 +1,52 @@
+                [Internet / Other Mail Systems]
+                               |
+                               |  SMTP 25 / 587
+                               v
+                    +---------------------------+
+                    |   Public IP / ISP Router |
+                    +---------------------------+
+                               |
+                        Port-forward 25
+                               |
+                        192.168.10.x
+                               |
+                   +------------------------+
+                   |   Exchange Receive     |
+                   |   Connector Server     |
+                   |   (e.g. MSEX2019)      |
+                   +------------------------+
+                               |
+              +-------------------------------------+
+              |     Exchange 2019 DAG (DAG01)      |
+              |  - MSEX2019 / WIN-EX2019          |
+              |  - DB copies / failover           |
+              +-------------------------------------+
+                               |
+                      Mailboxes for users
+
+
+
+
+
+
+What this shows / what you can test
+
+In real world, this could be:
+
+Edge Transport, or
+
+SMTP relay / spam gateway, or
+
+Cloud smart-host (EOP / 3rd party).
+
+Lab level：你可以簡化為：
+
+Inbound mail → NAT to MSEX2019
+
+Send connector → DNS or smart-host.
+
+👉 Lab ideas
+
+Configure a Send Connector and test sending mail to external Gmail/Outlook.com (if your ISP allows port 25, maybe not).
+
+Or just simulate using two test domains inside lab.

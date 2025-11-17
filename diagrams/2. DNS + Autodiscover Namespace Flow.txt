@@ -1,0 +1,48 @@
+                         Internal DNS: win2019ad.ivanhwlam.com
+                         External DNS: hk2uk.online
+--------------------------------------------------------------------------------
+Internal Zone (win2019ad.ivanhwlam.com):
+
+  mail.hk2uk.online      A   192.168.10.62   (MSEX2019)
+                         A   192.168.10.60   (WIN-EX2019)   [Round Robin]
+
+  autodiscover.hk2uk.online   CNAME   mail.hk2uk.online
+  (optional) _autodiscover._tcp.hk2uk.online  SRV  -> mail.hk2uk.online:443
+
+--------------------------------------------------------------------------------
+Client Autodiscover Process (simplified):
+
+  Outlook
+     |
+     | 1. Query autodiscover.hk2uk.online (A/CNAME/SRV)
+     v
+  DNS
+     |
+     v
+  mail.hk2uk.online (VIP namespace)
+     |
+     v
+  CAS Service on MSEX2019 / WIN-EX2019
+     |
+     v
+  Returns XML with:
+     - Mailbox server
+     - EWS / OAB / MAPI / OWA URLs
+
+
+What this shows / what you can test
+
+Namespace separation:
+
+AD domain: win2019ad.ivanhwlam.com
+
+SMTP/Client namespace: hk2uk.online
+
+Autodiscover behaviour using your hk2uk.online public domain.
+
+👉 Lab ideas
+
+On a client, run:
+outlook.exe /rpcdiag and Test E-mail AutoConfiguration → see Autodiscover path.
+
+Try pointing both Exchange servers’ virtual directories to mail.hk2uk.online.
