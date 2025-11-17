@@ -1,0 +1,39 @@
+===========================================
+Exchange 2019 DAG Lab
+PS3 – Failover Test (Shutdown EX1)
+Server: WIN-EX2019
+Timestamp: 2025-11-16
+===========================================
+
+Pre-test status:
+Command:
+    Get-MailboxDatabaseCopyStatus *
+
+Output:
+    Mailbox Database 0978398669\MSEX2019      Mounted
+    Mailbox Database 0978398669\WIN-EX2019    Healthy
+    Mailbox Database 0979199203\WIN-EX2019    Mounted
+    Mailbox Database 0979199203\MSEX2019      Healthy
+
+
+-------------------------------------------
+Test Action: Shutdown MSEX2019
+-------------------------------------------
+(You shut down EX1 manually)
+
+
+Post-shutdown status:
+Command:
+    Get-MailboxDatabaseCopyStatus *
+
+Output:
+    Name                                         Status         CopyQ ReplayQ  CIState
+    ----                                         ------         ----- -------  --------
+    Mailbox Database 0978398669\MSEX2019         ServiceDown    0     0        Unknown
+    Mailbox Database 0979199203\MSEX2019         ServiceDown    0     0        Unknown
+    Mailbox Database 0979199203\WIN-EX2019       Mounted        0     0        Healthy
+    Mailbox Database 0978398669\WIN-EX2019       Mounted        0     0        Healthy
+
+Conclusion:
+- EX1 關機後，所有 active mailbox DB 已自動轉移去 EX2
+- DAG failover 運作正常

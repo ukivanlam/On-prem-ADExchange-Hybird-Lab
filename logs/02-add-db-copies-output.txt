@@ -1,0 +1,58 @@
+===========================================
+Exchange 2019 DAG Lab
+PS2 – Add Database Copies
+Server: MSEX2019 / WIN-EX2019
+Timestamp: 2025-11-16
+===========================================
+
+Initial database list:
+Command:
+    Get-MailboxDatabase | ft Name,Server
+
+Output:
+    Name                               Server
+    ----                               ------
+    Mailbox Database 0978398669        MSEX2019
+    Mailbox Database 0979199203        WIN-EX2019
+
+
+-------------------------------------------
+Add DB Copy 1
+-------------------------------------------
+Command:
+    Add-MailboxDatabaseCopy -Identity "Mailbox Database 0978398669" -MailboxServer WIN-EX2019
+
+Output:
+    WARNING: Please restart the Microsoft Exchange Information Store service on server WIN-EX2019 
+    after adding new mailbox databases.
+
+    The operation completed successfully.
+
+
+-------------------------------------------
+Add DB Copy 2
+-------------------------------------------
+Command:
+    Add-MailboxDatabaseCopy -Identity "Mailbox Database 0979199203" -MailboxServer MSEX2019
+
+Output:
+    WARNING: Please restart the Microsoft Exchange Information Store service on server MSEX2019 
+    after adding new mailbox databases.
+
+    The operation completed successfully.
+
+
+-------------------------------------------
+Database Copy Status
+-------------------------------------------
+
+Command:
+    Get-MailboxDatabaseCopyStatus * | Format-Table Name,Status,CopyQueueLength,ReplayQueueLength,ContentIndexState
+
+Output:
+    Name                                           Status      CopyQ  ReplayQ   CIState
+    ----                                           ------      -----  -------   -------
+    Mailbox Database 0978398669\MSEX2019           Mounted     0      0         NotApplicable
+    Mailbox Database 0978398669\WIN-EX2019         Healthy     0      94        Healthy
+    Mailbox Database 0979199203\WIN-EX2019         Mounted     0      0         NotApplicable
+    Mailbox Database 0979199203\MSEX2019           Healthy     0      21        Healthy
