@@ -1,12 +1,21 @@
 # exchange-2019-dag-lab
 Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
-| Role                 | Hostname | IP            |
-| ------------------ | ---------- | ------------- |
-| AD / DNS / Witness | WIN2019AD  | 192.168.10.50 |
-| EX Server 1        | MSEX2019   | 192.168.10.62 |
-| EX Server 2        | WIN-EX2019 | 192.168.10.60 |
-| DAG IP             | DAG01      | 192.168.10.70 |
----------------------------------------------------
+
+Layer            Role / Component                 Hostname / Name       IP Address         Description
+---------------------------------------------------------------------------------------------------------------
+Client           Outlook / OWA Client             Client PC/Laptop      192.168.10.x       Internal user accessing Exchange services.
+
+DNS / AD         AD DS / DNS / FSW                WIN2019AD             192.168.10.50      Domain Controller, DNS Server, File Share Witness.
+
+Exchange 1       Mailbox + Client Access          MSEX2019              192.168.10.62      Exchange 2019 server, member of DAG01.
+
+Exchange 2       Mailbox + Client Access          WIN-EX2019            192.168.10.60      Exchange 2019 server, member of DAG01.
+
+DAG Cluster      Database Availability Group      DAG01                 192.168.10.70*     Exchange HA cluster with 2 MBX nodes (IP-less DAG).
+
+Mail Namespace   DNS Entry for Clients            mail.hk2uk.online     192.168.10.62      DNS Round Robin entry for Exchange access.
+                                                     (A record)          192.168.10.60
+
 
 
                          ┌────────────────────────────────┐
