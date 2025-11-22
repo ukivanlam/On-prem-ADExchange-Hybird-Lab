@@ -1,4 +1,5 @@
-# On-prem AD+ Exchange Hybird Lab
+# On-prem AD + Exchange Hybrid Lab
+
 ![AD](https://img.shields.io/badge/Active%20Directory-Expert-blue)
 ![Exchange](https://img.shields.io/badge/Exchange%202019-DAG%20%7C%20Hybrid-orange)
 ![AzureAD](https://img.shields.io/badge/Azure%20AD-DirSync%20%7C%20Oauth-blueviolet)
@@ -14,11 +15,11 @@
 
 Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
 
+```
 +-------------------------------------------------------------------------------------------------------+
 | Layer                | Component / Role                     | Hostname        | IP Address            |
 +-------------------------------------------------------------------------------------------------------+
 | Client               | Outlook / OWA / ActiveSync           | Client PC       | 192.168.10.x          |
-|                      |                                       |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
 | Identity / DNS       | AD DS + DNS + File Share Witness     | WIN2019AD       | 192.168.10.50         |
 |                      | - Domain Controller                   |                 |                       |
@@ -38,12 +39,16 @@ Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
 |                      |   * WIN-EX2019                         |                 |                       |
 |                      | - IP-less DAG (Exchange 2019)         |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
-| Mail Namespace       | DNS for Outlook/OWA                   | mail.hk2uk.online | 192.168.10.62        |
-|                      | DNS Round Robin Entry                 |                   | 192.168.10.60        |
+| Mail Namespace       | DNS for Outlook/OWA                   | mail.hk2uk.online → 192.168.10.62   |
+|                      | DNS Round Robin Entry                 |                  → 192.168.10.60     |
 +-------------------------------------------------------------------------------------------------------+
+```
 
+---
 
+# Hybrid Architecture (Directory → Cloud → Exchange)
 
+```
                          +---------------------------------+
                          |      Microsoft 365 Tenant       |
                          |  Exchange Online (EXO)          |
@@ -54,10 +59,10 @@ Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
                                            |
 +--------------------+     2. HTTPS / SMTP |       +-------------------------+
 | On-prem Exchange   |<--------------------+------>|  Azure AD Connect Host  |
-| 2019 DAG (DAG01)   |                           |  (could be WIN2019AD or  |
-| MSEX2019 / WIN-EX2019                          |  another member server)   |
-+---------+----------+                           +-----------+-------------+
-          ^                                                  ^
+| 2019 DAG (DAG01)   |                           |  (WIN2019AD or member)   |
+| MSEX2019 / WIN-EX2019                          +-----------+-------------+
++---------+----------+                                        ^
+          ^                                                  |
           | 1. On-prem identities / groups                   |
           |                                                  |
 +---------+----------+                             +---------+----------+
@@ -71,4 +76,4 @@ Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
         +---+---------------------+                               |
         | Outlook / OWA Clients   |-------------------------------+
         +-------------------------+
-
+```
