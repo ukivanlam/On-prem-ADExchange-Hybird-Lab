@@ -16,11 +16,11 @@
           |                                                  |
 +---------+----------+                             +---------+----------+
 |  WIN2019AD         |                             |   Public DNS /     |
-|  AD DS + DNS       |                             |   hk2uk.online     |
+|  AD DS + DNS       |                             |   hk2uk.xxxx     |
 +--------------------+                             +--------------------+
             ^                                                     ^
             | 4. Clients use same namespace                       |
-            |    (mail.hk2uk.online / autodiscover.hk2uk.online)  |
+            |    (mail.hk2uk.xxxx / autodiscover.hk2uk.xxxx)  |
             |                                                     |
         +---+---------------------+                               |
         | Outlook / OWA Clients   |-------------------------------+
@@ -49,7 +49,7 @@ Centralized mail transport (optional).
 
 👉 Lab steps you can plan (future)
 
-Get a test Microsoft 365 tenant (trial or dev when可申請到).
+Get a test Microsoft 365 tenant (trial or dev when).
 
 Verify your hk2uk.online domain in M365.
 
@@ -60,5 +60,6 @@ Run Hybrid Configuration Wizard from MSEX2019.
 Try:
 
 Creating a mailbox on-prem → see it in M365 as DirSync user.
+
 
 Move mailbox to EXO, keep same email address & namespace.
