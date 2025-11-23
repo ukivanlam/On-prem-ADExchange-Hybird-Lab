@@ -39,7 +39,7 @@ SMTP relay / spam gateway, or
 
 Cloud smart-host (EOP / 3rd party).
 
-Lab level：你可以簡化為：
+Lab level：
 
 Inbound mail → NAT to MSEX2019
 
@@ -48,5 +48,6 @@ Send connector → DNS or smart-host.
 👉 Lab ideas
 
 Configure a Send Connector and test sending mail to external Gmail/Outlook.com (if your ISP allows port 25, maybe not).
+
 
 Or just simulate using two test domains inside lab.
