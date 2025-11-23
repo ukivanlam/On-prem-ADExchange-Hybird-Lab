@@ -10,10 +10,10 @@ Command:
     Get-MailboxDatabaseCopyStatus *
 
 Output:
-    Mailbox Database 0978398669\MSEX2019      Mounted
-    Mailbox Database 0978398669\WIN-EX2019    Healthy
-    Mailbox Database 0979199203\WIN-EX2019    Mounted
-    Mailbox Database 0979199203\MSEX2019      Healthy
+    Mailbox Database xxxxx\MSEX2019      Mounted
+    Mailbox Database xxxxx\WIN-EX2019    Healthy
+    Mailbox Database xxxxx\WIN-EX2019    Mounted
+    Mailbox Database xxxxx\MSEX2019      Healthy
 
 
 -------------------------------------------
@@ -29,11 +29,12 @@ Command:
 Output:
     Name                                         Status         CopyQ ReplayQ  CIState
     ----                                         ------         ----- -------  --------
-    Mailbox Database 0978398669\MSEX2019         ServiceDown    0     0        Unknown
-    Mailbox Database 0979199203\MSEX2019         ServiceDown    0     0        Unknown
-    Mailbox Database 0979199203\WIN-EX2019       Mounted        0     0        Healthy
-    Mailbox Database 0978398669\WIN-EX2019       Mounted        0     0        Healthy
+    Mailbox Database xxxxx\MSEX2019         ServiceDown    0     0        Unknown
+    Mailbox Database xxxxx\MSEX2019         ServiceDown    0     0        Unknown
+    Mailbox Database xxxxx\WIN-EX2019       Mounted        0     0        Healthy
+    Mailbox Database xxxxx\WIN-EX2019       Mounted        0     0        Healthy
 
 Conclusion:
 - EX1 關機後，所有 active mailbox DB 已自動轉移去 EX2
 - DAG failover 運作正常
+
