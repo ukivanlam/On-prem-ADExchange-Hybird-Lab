@@ -1,6 +1,6 @@
                         Client (Outlook / OWA / ActiveSync)
                                      |
-                           HTTPS: https://mail.hk2uk.online
+                           HTTPS: https://mail.hk2uk.xxxx
                                      |
                            DNS Round Robin (A records)
                       mail.hk2uk.online -> 192.168.10.62 (MSEX2019)
@@ -42,5 +42,6 @@ DAG01 will mount DB A on WIN-EX2019 → clients reconnect via same URL.
 👉 Lab ideas
 
 Practice manual switchover: Move-ActiveMailboxDatabase -Identity "DB" -ActivateOnServer WIN-EX2019 -Confirm:$false
+
 
 Observe Outlook reconnection / OWA behaviour.
