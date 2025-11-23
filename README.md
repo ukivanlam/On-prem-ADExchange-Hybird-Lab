@@ -14,6 +14,7 @@
 ![Windows](https://img.shields.io/badge/Windows%20Server-2019%20%7C%202022-0078D6)
 
 Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
+EX Hybird EXO
 
 ```
 +-------------------------------------------------------------------------------------------------------+
@@ -39,8 +40,11 @@ Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
 |                      |   * WIN-EX2019                         |                 |                       |
 |                      | - IP-less DAG (Exchange 2019)         |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
-| Mail Namespace       | DNS for Outlook/OWA                   | mail.hk2uk.online → 192.168.10.62   |
+| Mail Namespace       | DNS for Outlook/OWA                   | mail.hk2uk.xxxxx → 192.168.10.62   |
 |                      | DNS Round Robin Entry                 |                  → 192.168.10.60     |
++-------------------------------------------------------------------------------------------------------+
+| WatchGuard           | Public IP + iptable + Firewall        | mail.hk2uk.xxxxx → 192.168.10.62   |
+|                      | port Forwarding                        |                                   |
 +-------------------------------------------------------------------------------------------------------+
 ```
 
@@ -67,11 +71,11 @@ Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
           |                                                  |
 +---------+----------+                             +---------+----------+
 |  WIN2019AD         |                             |   Public DNS /     |
-|  AD DS + DNS       |                             |   hk2uk.online     |
+|  AD DS + DNS       |                             |   hk2uk.xxxxx     |
 +--------------------+                             +--------------------+
             ^                                                     ^
             | 4. Clients use same namespace                       |
-            |    (mail.hk2uk.online / autodiscover.hk2uk.online)  |
+            |    (mail.hk2uk.xxxxx / autodiscover.hk2uk.xxxxx)  |
             |                                                     |
         +---+---------------------+                               |
         | Outlook / OWA Clients   |-------------------------------+
