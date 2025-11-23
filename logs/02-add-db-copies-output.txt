@@ -12,15 +12,15 @@ Command:
 Output:
     Name                               Server
     ----                               ------
-    Mailbox Database 0978398669        MSEX2019
-    Mailbox Database 0979199203        WIN-EX2019
+    Mailbox Database xxxxx        MSEX2019
+    Mailbox Database xxxxx        WIN-EX2019
 
 
 -------------------------------------------
 Add DB Copy 1
 -------------------------------------------
 Command:
-    Add-MailboxDatabaseCopy -Identity "Mailbox Database 0978398669" -MailboxServer WIN-EX2019
+    Add-MailboxDatabaseCopy -Identity "Mailbox Database xxxxx" -MailboxServer WIN-EX2019
 
 Output:
     WARNING: Please restart the Microsoft Exchange Information Store service on server WIN-EX2019 
@@ -33,7 +33,7 @@ Output:
 Add DB Copy 2
 -------------------------------------------
 Command:
-    Add-MailboxDatabaseCopy -Identity "Mailbox Database 0979199203" -MailboxServer MSEX2019
+    Add-MailboxDatabaseCopy -Identity "Mailbox Database xxxxx" -MailboxServer MSEX2019
 
 Output:
     WARNING: Please restart the Microsoft Exchange Information Store service on server MSEX2019 
@@ -52,7 +52,8 @@ Command:
 Output:
     Name                                           Status      CopyQ  ReplayQ   CIState
     ----                                           ------      -----  -------   -------
-    Mailbox Database 0978398669\MSEX2019           Mounted     0      0         NotApplicable
-    Mailbox Database 0978398669\WIN-EX2019         Healthy     0      94        Healthy
-    Mailbox Database 0979199203\WIN-EX2019         Mounted     0      0         NotApplicable
-    Mailbox Database 0979199203\MSEX2019           Healthy     0      21        Healthy
+    Mailbox Database xxxxx\MSEX2019           Mounted     0      0         NotApplicable
+    Mailbox Database xxxxx\WIN-EX2019         Healthy     0      94        Healthy
+    Mailbox Database xxxxx\WIN-EX2019         Mounted     0      0         NotApplicable
+    Mailbox Database xxxxx\MSEX2019           Healthy     0      21        Healthy
+
