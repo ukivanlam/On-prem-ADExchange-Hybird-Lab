@@ -1,18 +1,23 @@
+Home lab setup: Exchange 2019 DAG on Windows Server 2019 with AD DS
+EX Hybird EXO
+
+```
 +-------------------------------------------------------------------------------------------------------+
 | Layer                | Component / Role                     | Hostname        | IP Address            |
 +-------------------------------------------------------------------------------------------------------+
 | Client               | Outlook / OWA / ActiveSync           | Client PC       | 192.168.10.x          |
 +-------------------------------------------------------------------------------------------------------+
-| Identity Services    | AD DS, DNS, File Share Witness       | WIN2019AD       | 192.168.10.50         |
+| Identity / DNS       | AD DS + DNS + File Share Witness     | WIN2019AD       | 192.168.10.50         |
 |                      | - Domain Controller                   |                 |                       |
 |                      | - DNS Server                          |                 |                       |
 |                      | - DAG Witness: C:\DAGFileShare        |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
-| Exchange Server 1    | Exchange 2019 Mailbox + CAS          | MSEX2019        | 192.168.10.62         |
-|                      | - DAG Member: DAG01                   |                 |                       |
+| Exchange Server 1    | Mailbox + Client Access Role         | MSEX2019        | 192.168.10.62         |
+|                      | - Member of DAG01                     |                 |                       |
+|                      | - HCW                                 |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
-| Exchange Server 2    | Exchange 2019 Mailbox + CAS          | WIN-EX2019      | 192.168.10.60         |
-|                      | - DAG Member: DAG01                   |                 |                       |
+| Exchange Server 2    | Mailbox + Client Access Role         | WIN-EX2019      | 192.168.10.60         |
+|                      | - Member of DAG01                     |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
 | DAG Cluster          | Database Availability Group (DAG01)  | DAG01           | 192.168.10.70 *       |
 |                      | - 2 Mailbox Servers                    |                 |                       |
@@ -20,6 +25,44 @@
 |                      |   * WIN-EX2019                         |                 |                       |
 |                      | - IP-less DAG (Exchange 2019)         |                 |                       |
 +-------------------------------------------------------------------------------------------------------+
-| Mail Namespace       | Primary Mail URL (Outlook/OWA)       | mail.hk2uk.online | RR: 192.168.10.62    |
-|                      | DNS Round Robin Load Balancing       |                   | RR: 192.168.10.60    |
+| Mail Namespace       | DNS for Outlook/OWA                   | mail.hk2uk.xxxxx → 192.168.10.62   |
+|                      | DNS Round Robin Entry                 |                  → 192.168.10.60     |
 +-------------------------------------------------------------------------------------------------------+
+| WatchGuard           | Public IP + iptable + Firewall        | mail.hk2uk.xxxxx → 192.168.10.62   |
+|                      | port Forwarding                        |                                   |
++-------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+# Hybrid Architecture (Directory → Cloud → Exchange)
+
+```
+                         +---------------------------------+
+                         |      Microsoft 365 Tenant       |
+                         |  Exchange Online (EXO)          |
+                         |  Azure AD (cloud identity)      |
+                         +-----------------+---------------+
+                                           ^
+                                           | 3. DirSync (Azure AD Connect)
+                                           |
++--------------------+     2. HTTPS / SMTP |       +-------------------------+
+| On-prem Exchange   |<--------------------+------>|  Azure AD Connect Host  |
+| 2019 DAG (DAG01)   |                           |  (WIN2019AD or member)   |
+| MSEX2019 / WIN-EX2019                          +-----------+-------------+
++---------+----------+                                        ^
+          ^                                                  |
+          | 1. On-prem identities / groups                   |
+          |                                                  |
++---------+----------+                             +---------+----------+
+|  WIN2019AD         |                             |   Public DNS /     |
+|  AD DS + DNS       |                             |   hk2uk.xxxxx     |
++--------------------+                             +--------------------+
+            ^                                                     ^
+            | 4. Clients use same namespace                       |
+            |    (mail.hk2uk.xxxxx / autodiscover.hk2uk.xxxxx)  |
+            |                                                     |
+        +---+---------------------+                               |
+        | Outlook / OWA Clients   |-------------------------------+
+        +-------------------------+
+```
